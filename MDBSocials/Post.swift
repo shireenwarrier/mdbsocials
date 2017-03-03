@@ -23,6 +23,8 @@ class Post {
     var date: String?
     var day: String?
     var time: String?
+    var usersInterested: [String] = []
+    let postRef = FIRDatabase.database().reference().child("Posts")
     
     init(id: String, postDict: [String: Any]?) {
         self.id = id
@@ -60,17 +62,30 @@ class Post {
             if let imageUrl = postDict!["imageUrl"] as? String {
                 self.imageUrl = imageUrl
             }
+            if let usersInterested = postDict!["usersInterested"] as? [String] {
+                self.usersInterested = usersInterested
+            }
             
         }
     }
     
-    init() {
-        self.description = "This is a god dream"
-        self.id = "1"
-        self.numLikes = 0
-        self.poster = "Kanye West"
+    func getNumInterestedUsers() -> Int {
+        var idArray: [String] = []
+        postRef.child(self.id!).observeSingleEvent(of: .value, with: { snapshot in
+            let value = snapshot.value as? NSDictionary
+            idArray = value?["usersInterested"] as? [String] ?? []
+        })
+        
+        return idArray.count
     }
     
+    func addInterestedUser(withId: String) {
+        if !self.usersInterested.contains(withId) {
+            self.usersInterested.append(withId)
+            let childUpdates = ["\(self.id!)/usersInterested": self.usersInterested]
+            postRef.updateChildValues(childUpdates)
+        }
+    }
 }
 
 

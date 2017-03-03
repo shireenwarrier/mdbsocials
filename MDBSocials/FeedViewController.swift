@@ -11,7 +11,6 @@ import Firebase
 
 class FeedViewController: UIViewController {
 
-//    var newPostView: UITextField!
     var newPostButton: UIButton!
     var postCollectionView: UICollectionView!
     var posts: [Post] = []
@@ -20,14 +19,11 @@ class FeedViewController: UIViewController {
     var storage: FIRStorageReference = FIRStorage.storage().reference()
     var currentUser: User?
     var selectedPostID: String?
-    
-    //For sample post
-    let samplePost = Post()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        posts.append(samplePost)
+        self.setupButton()
         
         fetchUser {
             self.fetchPosts() {
@@ -44,9 +40,14 @@ class FeedViewController: UIViewController {
         super.touchesBegan(touches, with: event)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if postCollectionView != nil {
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func setupNavBar() {
@@ -55,7 +56,6 @@ class FeedViewController: UIViewController {
     }
     
     func logOut() {
-        //TODO: Log out using Firebase!
         let firebaseAuth = FIRAuth.auth()
         do {
             try firebaseAuth?.signOut()
@@ -73,7 +73,7 @@ class FeedViewController: UIViewController {
         newPostButton.layoutIfNeeded()
         newPostButton.layer.borderWidth = 2.0
         newPostButton.layer.cornerRadius = 3.0
-        newPostButton.layer.borderColor = UIColor.blue.cgColor
+        newPostButton.layer.borderColor = Constants.feedBorderColor
         newPostButton.layer.masksToBounds = true
         newPostButton.addTarget(self, action: #selector(addNewPost), for: .touchUpInside)
         view.addSubview(newPostButton)
@@ -99,7 +99,7 @@ class FeedViewController: UIViewController {
         let ref = FIRDatabase.database().reference()
         ref.child("Posts").observe(.childAdded, with: { (snapshot) in
             let post = Post(id: snapshot.key, postDict: snapshot.value as! [String : Any]?)
-            self.posts.append(post)
+            self.posts.insert(post, at: 0)
             
             withBlock()
         })
@@ -122,16 +122,6 @@ class FeedViewController: UIViewController {
         }
     }
     
-}
-
-protocol LikeButtonProtocol {
-    func likeButtonClicked(sender: UIButton!)
-}
-
-extension FeedViewController: LikeButtonProtocol {
-    func likeButtonClicked(sender: UIButton!) {
-        //TODO: Implement like button using Firebase transactions!
-    }
 }
 
 extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -164,17 +154,11 @@ extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.imageView.image = #imageLiteral(resourceName: "puppy")
         }
         
-        cell.interestedLabel.text = "Interested: 0"
-        
-        //TODO(?) Get image from Firebase Storage and put it on the post
-        //Uncomment code below to see sample post with profile picture
-//        print(cell.bounds)
-//        print(UIScreen.main.bounds)
-//        cell.likeButton.tag = indexPath.row
-//        cell.likeButton.addTarget(self, action: #selector(likeButtonClicked), for: .touchUpInside)
+        cell.interestedLabel.text = "Interested: \(postInQuestion.getNumInterestedUsers())"
+
         return cell
     }
-    
+
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         return CGSize(width: postCollectionView.bounds.width - 20, height: 100)
     }
@@ -184,19 +168,12 @@ extension FeedViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        return UIEdgeInsets(top: 45, left: 0, bottom: 5, right: 0)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        var poke: [Pokemon] = SearchViewController.filteredPokemon
-//        
-//        let pokeCell = cell as! PokemonGridCell
-//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedPostID = posts[indexPath.row].id
         performSegue(withIdentifier: "segueToDetails", sender: self)
     }
-    
     
 }

@@ -30,7 +30,7 @@ class SignupViewController: UIViewController {
     }
     
     func setupUI() {
-        firstNameField = UITextField(frame: CGRect(x: view.frame.width/4, y: view.frame.height/4, width: view.frame.width/4, height: 50))
+        firstNameField = UITextField(frame: CGRect(x: view.frame.width/4, y: view.frame.height/4, width: view.frame.width/4 - 10, height: 50))
         firstNameField.adjustsFontSizeToFitWidth = true
         firstNameField.placeholder = "First Name"
         firstNameField.layoutIfNeeded()
@@ -38,8 +38,9 @@ class SignupViewController: UIViewController {
         firstNameField.layer.borderWidth = 1.0
         firstNameField.layer.masksToBounds = true
         firstNameField.textColor = UIColor.black
+        firstNameField.autocapitalizationType = .none
         
-        lastNameField = UITextField(frame: CGRect(x: firstNameField.frame.maxX, y: view.frame.height/4, width: view.frame.width/4, height: 50))
+        lastNameField = UITextField(frame: CGRect(x: firstNameField.frame.maxX + 20, y: view.frame.height/4, width: view.frame.width/4 - 10, height: 50))
         lastNameField.adjustsFontSizeToFitWidth = true
         lastNameField.placeholder = "Last Name"
         lastNameField.layoutIfNeeded()
@@ -47,6 +48,7 @@ class SignupViewController: UIViewController {
         lastNameField.layer.borderWidth = 1.0
         lastNameField.layer.masksToBounds = true
         lastNameField.textColor = UIColor.black
+        lastNameField.autocapitalizationType = .none
         
         userNameField = UITextField(frame: CGRect(x: view.frame.width/3, y: lastNameField.frame.maxY + 20, width: view.frame.width/3, height: 50))
         userNameField.adjustsFontSizeToFitWidth = true
@@ -56,6 +58,7 @@ class SignupViewController: UIViewController {
         userNameField.layer.borderWidth = 1.0
         userNameField.layer.masksToBounds = true
         userNameField.textColor = UIColor.black
+        userNameField.autocapitalizationType = .none
         
         passwordField = UITextField(frame: CGRect(x: view.frame.width/3, y: userNameField.frame.maxY + 20, width: view.frame.width/3, height: 50))
         passwordField.adjustsFontSizeToFitWidth = true
@@ -75,6 +78,7 @@ class SignupViewController: UIViewController {
         emailField.layer.borderWidth = 1.0
         emailField.layer.masksToBounds = true
         emailField.textColor = UIColor.black
+        emailField.autocapitalizationType = .none
         
         signupButton = UIButton(frame: CGRect(x: view.frame.width/3, y: emailField.frame.maxY + 20, width: view.frame.width/3, height: 50))
         signupButton.layoutIfNeeded()

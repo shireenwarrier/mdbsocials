@@ -33,16 +33,17 @@ class LoginViewController: UIViewController {
     }
     
     func setupUI() {
-        emailField = UITextField(frame: CGRect(x: view.frame.width/3, y: view.frame.height/3, width: view.frame.width/3, height: 50))
+        emailField = UITextField(frame: CGRect(x: view.frame.width/4, y: view.frame.height/3, width: view.frame.width/2, height: 50))
         emailField.adjustsFontSizeToFitWidth = true
         emailField.placeholder = "Email"
         emailField.layoutIfNeeded()
         emailField.layer.borderColor = UIColor.lightGray.cgColor
         emailField.layer.borderWidth = 1.0
         emailField.layer.masksToBounds = true
-        emailField.textColor = UIColor.black        
+        emailField.textColor = UIColor.black
+        emailField.autocapitalizationType = .none
         
-        passwordField = UITextField(frame: CGRect(x: view.frame.width/3, y: emailField.frame.maxY, width: view.frame.width/3, height: 50))
+        passwordField = UITextField(frame: CGRect(x: view.frame.width/4, y: emailField.frame.maxY + 30, width: view.frame.width/2, height: 50))
         passwordField.adjustsFontSizeToFitWidth = true
         passwordField.placeholder = "Password"
         passwordField.layoutIfNeeded()

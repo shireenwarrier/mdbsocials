@@ -9,6 +9,10 @@
 import UIKit
 import Firebase
 
+protocol PostCollectionViewDelegate {
+    func addInterestedUser(forCell: PostCollectionViewCell)
+}
+
 class PostCollectionViewCell: UICollectionViewCell {
     var eventNameLabel: UILabel!
     var usernameLabel: UILabel!
@@ -22,21 +26,26 @@ class PostCollectionViewCell: UICollectionViewCell {
     }
     
     func setupUI() {
-        eventNameLabel = UILabel(frame: CGRect(x: contentView.frame.minX + 10, y: contentView.frame.minY + 10, width: self.frame.width, height: 30))
+        eventNameLabel = UILabel(frame: CGRect(x: contentView.frame.minX + 10, y: contentView.frame.minY + 10, width: self.frame.width/2, height: contentView.frame.height/3 - 10))
         eventNameLabel.textColor = UIColor.black
-        eventNameLabel.font = UIFont.systemFont(ofSize: 24, weight: 2)
+        eventNameLabel.font = UIFont.systemFont(ofSize: 24, weight: 1)
         eventNameLabel.adjustsFontForContentSizeCategory = true
+        eventNameLabel.layer.borderColor = Constants.feedBorderColor
         
-        usernameLabel = UILabel(frame: CGRect(x: contentView.frame.minX + 10, y: eventNameLabel.frame.maxY + 10, width: self.frame.width, height: 30))
+        usernameLabel = UILabel(frame: CGRect(x: contentView.frame.minX + 10, y: eventNameLabel.frame.maxY + 10, width: self.frame.width/2, height: contentView.frame.height/3 - 10))
         usernameLabel.textColor = UIColor.black
+        usernameLabel.font = UIFont.systemFont(ofSize: 24, weight: 1)
         usernameLabel.adjustsFontForContentSizeCategory = true
+        usernameLabel.layer.borderColor = Constants.feedBorderColor
         
-        imageView = UIImageView(frame: CGRect(x: contentView.frame.minX + 10, y: usernameLabel.frame.maxY + 10, width: 50, height: 50))
+        imageView = UIImageView(frame: CGRect(x: contentView.frame.width/2 + 10, y: contentView.frame.minY, width: contentView.frame.width/2 - 10, height: contentView.frame.height - 10))
         
-        interestedLabel = UILabel(frame: CGRect(x: contentView.frame.minX + 10, y: imageView.frame.maxY + 10, width: self.frame.width, height: 30))
+        interestedLabel = UILabel(frame: CGRect(x: contentView.frame.minX + 10, y: usernameLabel.frame.maxY + 10, width: self.frame.width/2, height: contentView.frame.height/3 - 10))
         interestedLabel.textColor = UIColor.black
+        interestedLabel.font = UIFont.systemFont(ofSize: 24, weight: 1)
         interestedLabel.font = UIFont.systemFont(ofSize: 24, weight: 2)
         interestedLabel.adjustsFontForContentSizeCategory = true
+        interestedLabel.layer.borderColor = Constants.feedBorderColor
         
         
         addSubview(eventNameLabel)
