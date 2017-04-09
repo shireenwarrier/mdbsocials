@@ -21,8 +21,6 @@ class Post {
     var id: String?
     var imageUrl: String? = "http://cdn2-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-8.jpg"
     var date: String?
-    var day: String?
-    var time: String?
     var usersInterested: [String] = []
     let postRef = FIRDatabase.database().reference().child("Posts")
     
@@ -44,12 +42,6 @@ class Post {
             if let date = postDict!["date"] as? String {
                 self.date = date
             }
-            if let day = postDict!["day"] as? String {
-                self.day = day
-            }
-            if let time = postDict!["time"] as? String {
-                self.time = time
-            }
             if let numLikes = postDict!["numLikes"] as? Int {
                 self.numLikes = numLikes
             }
@@ -70,13 +62,7 @@ class Post {
     }
     
     func getNumInterestedUsers() -> Int {
-        var idArray: [String] = []
-        postRef.child(self.id!).observeSingleEvent(of: .value, with: { snapshot in
-            let value = snapshot.value as? NSDictionary
-            idArray = value?["usersInterested"] as? [String] ?? []
-        })
-        
-        return idArray.count
+        return usersInterested.count
     }
     
     func addInterestedUser(withId: String) {

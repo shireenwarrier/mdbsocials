@@ -26,6 +26,7 @@ class InterestedUsersTableViewCell: UITableViewCell {
     func setupUI() {
         userLabel = UILabel(frame: CGRect(x: contentView.frame.minX + 30, y: contentView.frame.minY + 10, width: contentView.frame.width - 60, height: contentView.frame.height - 20))
         userLabel.textColor = UIColor.black
+        userLabel.font = UIFont(name: "Apple SD Gothic Neo", size: userLabel.font.pointSize)
         contentView.addSubview(userLabel)
     }
 
